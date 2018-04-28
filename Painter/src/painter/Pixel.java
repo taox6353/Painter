@@ -7,9 +7,11 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Pixel {
+	
 	int x = 0;
 	int y = 0;
 	Color col;
+	
 	public Pixel(){
 		col = Color.WHITE;
 	}
@@ -18,7 +20,8 @@ public class Pixel {
 		y = yCoord;
 		col = Color.WHITE;
 	}
-	public void draw(Graphics window,Color color){
+	public void draw(Graphics window,Color color,int size){
 		col = color;
+		window.fillRect(x, y, size, size);
 	}
 }
