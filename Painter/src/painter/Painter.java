@@ -35,7 +35,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private int cursorX = 0;
 	private int cursorY = 0;
 	
-	Pixel pix;
+	SquarePencil pix;
 //	private ArrayList<Palette> colorz;
 	
 	
@@ -45,7 +45,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	public Painter(){
 		setBackground(Color.WHITE);
 		
-		pix = new Pixel();
+		
 		mouseDown = false;
 		color = Color.BLACK;
 		size = 15;
@@ -79,6 +79,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		
 		Palette palette = new Palette(graphToBack);
 		Thickness thicknesses = new Thickness(graphToBack);
+		pix = new SquarePencil(graphToBack);
 		
 		graphToBack.setColor(Color.WHITE);
 		graphToBack.fillRect(20, 690, 600, 12);

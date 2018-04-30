@@ -1,7 +1,26 @@
 LIMIT DRAWING SPACE&add bar: SWITCH COLOR TO WHITE IMMEDIATELY AFTER Y CROSSES certain value--to prevent drawing on toolbar
 
-Add various utensils: 
+Add various tools: 
 "airbrush" adds random pixels around cursor
 brush uses circular pixels instead of squares
 square pencil uses square pixels
-text creates text (CHALLENGE)
+
+
+
+eraser tool
+add line tool
+rectangle tool
+filled rectangle tool
+
+right mouse is automatic erase tool
+https://stackoverflow.com/questions/4525733/java-mouse-event-right-click
+
+
+Wipe board
+
+
+***FIX THE SPACES BETWEEN PIXELS***
+
+CHALLENGE
+Gradient tool
+text creates text

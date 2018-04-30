@@ -6,13 +6,13 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Pixel {
+public class Brush {
 	
-	public Pixel(){
+	public Brush(){
 	}
 
 	public void draw(Graphics window,int x,int y,Color color,int size){
 		window.setColor(color);
-		window.fillRect(x, y, size, size);
+		window.fillOval(x, y, size, size);
 	}
 }
