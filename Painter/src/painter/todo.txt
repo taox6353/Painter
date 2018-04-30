@@ -1,0 +1,7 @@
+LIMIT DRAWING SPACE&add bar: SWITCH COLOR TO WHITE IMMEDIATELY AFTER Y CROSSES certain value--to prevent drawing on toolbar
+
+Add various utensils: 
+"airbrush" adds random pixels around cursor
+brush uses circular pixels instead of squares
+square pencil uses square pixels
+text creates text (CHALLENGE)

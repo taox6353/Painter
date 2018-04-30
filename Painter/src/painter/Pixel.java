@@ -8,20 +8,11 @@ import javax.imageio.ImageIO;
 
 public class Pixel {
 	
-	int x = 0;
-	int y = 0;
-	Color col;
-	
 	public Pixel(){
-		col = Color.WHITE;
 	}
-	public Pixel(int xCoord,int yCoord){
-		x = xCoord;
-		y = yCoord;
-		col = Color.WHITE;
-	}
-	public void draw(Graphics window,Color color,int size){
-		col = color;
+
+	public void draw(Graphics window,int x,int y,Color color,int size){
+		window.setColor(color);
 		window.fillRect(x, y, size, size);
 	}
 }

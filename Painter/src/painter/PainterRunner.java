@@ -5,13 +5,13 @@ import java.awt.Component;
 
 public class PainterRunner extends JFrame
 {
-	private static final int WIDTH = 1000;
-	private static final int HEIGHT = 1000;
+	private static final int WIDTH = 800;
+	private static final int HEIGHT = 800;
 	//private JLabel statusbar;
 	
 	public PainterRunner()
 	{
-		super("Painter v.Alpha by Xavier Tao");
+		super("Painter by Xavier Tao");
 		setSize(WIDTH,HEIGHT);
 
 		Painter theProg = new Painter();
