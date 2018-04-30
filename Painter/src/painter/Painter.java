@@ -23,6 +23,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private boolean mouseDown;
 	private Color color;
 	private int size;
+	private boolean firstload;
 	
 //	private int r;
 //	private int g;
@@ -47,7 +48,8 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		pix = new Pixel();
 		mouseDown = false;
 		color = Color.BLACK;
-		size = 10;
+		size = 15;
+		firstload = true;
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -66,6 +68,14 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			   back = (BufferedImage)(createImage(getWidth(),getHeight()));
 		Graphics graphToBack = back.createGraphics();
 
+		if(firstload){
+		StartScreen ss = new StartScreen();
+		ss.draw(graphToBack);
+		if(mouseDown){
+			ss.getOut(graphToBack);
+			firstload = false;
+			}
+		}
 		
 		Palette palette = new Palette(graphToBack);
 		Thickness thicknesses = new Thickness(graphToBack);

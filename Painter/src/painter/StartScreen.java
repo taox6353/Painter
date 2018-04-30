@@ -12,8 +12,13 @@ public class StartScreen {
 	
 	public void draw(Graphics window){
 		window.setColor(Color.BLACK);
-		window.drawString("PAINTER by Xavier Tao", 400, 450);
-		window.drawString("This is your typical paint application. Choose a color, and begin painting!", 250, 500);
-		window.drawString("2018 AP Computer Science A", 400, 550);
+		window.drawString("PAINTER by Xavier Tao", 250, 200);
+		window.drawString("This is your typical paint application. Explore the functions and have fun!", 250, 225);
+		window.drawString("2018 AP Computer Science A", 250, 250);
+		window.drawString("Click anywhere to dismiss this message. ", 250, 275);
+	}
+	public void getOut(Graphics window){
+		window.setColor(Color.WHITE);
+		window.fillRect(100, 100, 600, 500);
 	}
 }
