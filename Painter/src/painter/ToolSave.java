@@ -42,7 +42,6 @@ public class ToolSave extends JPanel{
 	public int getsize() {
 		return lengthwidth;
 	}
-
 	
 
 }

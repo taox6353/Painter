@@ -3,6 +3,7 @@ package painter;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.awt.MouseInfo;
 import java.awt.Canvas;
 import java.awt.event.ActionEvent;
@@ -10,8 +11,12 @@ import java.awt.event.KeyListener;
 import java.awt.event.KeyEvent;
 import static java.lang.Character.*;
 import java.awt.image.BufferedImage;
+import java.io.File;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+
+import javax.imageio.ImageIO;
+
 import java.awt.event.MouseListener;
 import java.awt.event.*;
 
@@ -25,6 +30,10 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private int size;
 	private boolean firstload;
 	
+	private boolean pencilselected;
+	private boolean eraserselected;
+	private boolean brushselected;
+	
 //	private int r;
 //	private int g;
 //	private int b;
@@ -35,11 +44,11 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private int cursorX = 0;
 	private int cursorY = 0;
 	
-	SquarePencil pix;
+	ToolPencil pencil;
+	ToolEraser eraser;
+	ToolBrush brush;
+	ToolSave save;
 //	private ArrayList<Palette> colorz;
-	
-	
-	
 	
 	
 	public Painter(){
@@ -50,6 +59,10 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		color = Color.BLACK;
 		size = 15;
 		firstload = true;
+		
+		pencilselected=true;
+		eraserselected=false;
+		brushselected=false;
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -63,11 +76,13 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	}
 	public void paint( Graphics window )
 	{
+		//Loading background
 		Graphics2D twoDGraph = (Graphics2D)window;
 		if(back==null)
 			   back = (BufferedImage)(createImage(getWidth(),getHeight()));
 		Graphics graphToBack = back.createGraphics();
-
+		
+		//Loads first screen
 		if(firstload){
 		StartScreen ss = new StartScreen();
 		ss.draw(graphToBack);
@@ -76,38 +91,103 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			firstload = false;
 			}
 		}
-		
+		//Loads toolbar elements
+		graphToBack.drawLine(0, 70, 800, 70);
 		Palette palette = new Palette(graphToBack);
 		Thickness thicknesses = new Thickness(graphToBack);
-		pix = new SquarePencil(graphToBack);
+		Logo logo = new Logo(graphToBack);
+		eraser = new ToolEraser(graphToBack);
+		pencil = new ToolPencil(graphToBack);
+		brush = new ToolBrush(graphToBack);
+		save = new ToolSave(graphToBack);
 		
+		//Status message updater
 		graphToBack.setColor(Color.WHITE);
-		graphToBack.fillRect(20, 690, 600, 12);
+		graphToBack.fillRect(20, 710, 600, 12);
 		graphToBack.setColor(Color.BLACK);
-		graphToBack.drawString("Cursor Position: "+cursorX+", "+cursorY+"\t | Color selected: "+color.toString().substring(9)+" \t | Size: "+size, 20, 700);
+		graphToBack.drawString("Cursor Position: "+cursorX+", "+cursorY+"\t | Color selected: "+color.toString().substring(9)+" \t | Size: "+size, 20, 720);
 		
+		//Cursor hovering over color bar
 		if(cursorY>=10&&cursorY<=30&&cursorX>=500&&cursorX<=500+20*palette.getCols().length){
 			graphToBack.setColor(Color.BLACK);
-			graphToBack.drawString("Select a color by clicking on it. ", 20, 680);
+			graphToBack.drawString("Select a color by clicking on it. ", 20, 700);
 		}
+		//Cursor hovering over size spectrum picker
 		else if(cursorY>=40&&cursorY<=60&&cursorX>=500&&cursorX<=740){
 			graphToBack.setColor(Color.BLACK);
-			graphToBack.drawString("Select a thickness by clicking anywhere along the thickness spectrum. ", 20, 680);
+			graphToBack.drawString("Select a thickness by clicking anywhere along the thickness spectrum. ", 20, 700);
 		}
+		//Cursor hovering over pencil tool
+		else if(cursorY>=pencil.getY()&&cursorY<=pencil.getY()+pencil.getSize()&&cursorX>=pencil.getX()&&cursorX<=pencil.getX()+pencil.getSize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("Pencil Tool: The standard tool that draws square pixels. ", 20, 700);
+		}
+		//Cursor hovering over eraser tool
+		else if(cursorY>=eraser.getY()&&cursorY<=eraser.getY()+eraser.getSize()&&cursorX>=eraser.getX()&&cursorX<=eraser.getX()+eraser.getSize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("Eraser Tool: Your classic Pink Pearl eraser. Erase anything, anytime. ", 20, 700);
+		}
+		//Cursor hovering over brush tool
+		else if(cursorY>=brush.getY()&&cursorY<=brush.getY()+brush.getSize()&&cursorX>=brush.getX()&&cursorX<=brush.getX()+brush.getSize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("Brush Tool: All of the pencil goodness, just smoother. ", 20, 700);
+		}
+		//Cursor hovering over save tool
+		else if(cursorY>=save.getY()&&cursorY<=save.getY()+save.getsize()&&cursorX>=save.getX()&&cursorX<=save.getX()+save.getsize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("Save Tool: [edit] This is now a vestigial tool! Your artwork is automatically saved upon closing the window! How nice is that? ", 20, 700);
+		}
+		//Hovering over nothing, hide message
 		else{
 			graphToBack.setColor(Color.WHITE);
-			graphToBack.fillRect(20, 670, 700, 12);
+			graphToBack.fillRect(20, 690, 700, 12);
 		}
 		
+		//Hot areas: clicking on stuff does stuff
 		if(mouseDown == true){
+			//Clicked on color bar
 			if(Y>=10&&Y<=30&&X>=500&&X<=500+20*palette.getCols().length){
 				color = palette.getCols()[(int)(X-500)/20];
 			}
+			//Clicked on size spectrum picker
 			else if(Y>=40&&Y<=60&&X>=500&&X<=740){
 				size = (int)(((double)(X-500)/(740-500))*100);
 			}
-			else
-				pix.draw(graphToBack,X,Y,color,size);
+			//Clicked on pencil tool
+			else if(Y>=pencil.getY()&&Y<=pencil.getY()+pencil.getSize()&&X>=pencil.getX()&&X<=pencil.getX()+pencil.getSize()){
+				pencilselected = true;
+				eraserselected = false;
+				brushselected = false;
+			}
+			//Clicked on eraser tool
+			else if(Y>=eraser.getY()&&Y<=eraser.getY()+eraser.getSize()&&X>=eraser.getX()&&X<=eraser.getX()+eraser.getSize()){
+				pencilselected = false;
+				eraserselected = true;
+				brushselected = false;
+			}
+			//Clicked on brush tool
+			else if(Y>=brush.getY()&&Y<=brush.getY()+brush.getSize()&&X>=brush.getX()&&X<=brush.getX()+brush.getSize()){
+				pencilselected = false;
+				eraserselected = false;
+				brushselected = true;
+			}
+			//Clicked on save
+			else if(Y>=save.getY()&&Y<=save.getY()+save.getsize()&&X>=save.getX()&&X<=save.getX()+save.getsize()){
+//				save.save();
+			}
+			//Draws on canvas with pencil
+			else if(pencilselected&&Y>70){
+				pencil.draw(graphToBack,X,Y,color,size);
+			}
+			//Draws on canvas with eraser
+			else if(eraserselected){
+				eraser.draw(graphToBack, X, Y, color, size);
+			}
+			//Draws on canvas with brush
+			else if(brushselected&&Y>70){
+				brush.draw(graphToBack,X,Y,color,size);
+			}
+				
 		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
