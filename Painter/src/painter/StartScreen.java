@@ -16,6 +16,7 @@ public class StartScreen {
 		window.drawString("This is your typical paint application. Explore the functions and have fun!", 250, 225);
 		window.drawString("2018 AP Computer Science A", 250, 250);
 		window.drawString("Click anywhere to dismiss this message. ", 250, 275);
+		window.drawString("Credits to Derek N. for logo advice. ", 250, 300);
 	}
 	public void getOut(Graphics window){
 		window.setColor(Color.WHITE);

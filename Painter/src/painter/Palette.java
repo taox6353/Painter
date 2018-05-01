@@ -7,7 +7,7 @@ import java.io.File;
 import javax.imageio.ImageIO;
 
 public class Palette {
-	Color[] cols = {Color.RED, Color.ORANGE, Color.YELLOW,Color.GREEN, Color.CYAN, Color.BLUE, Color.PINK, Color.MAGENTA,Color.LIGHT_GRAY, Color.GRAY, Color.DARK_GRAY, Color.BLACK,Color.WHITE};
+	Color[] cols = {Color.RED, Color.ORANGE, Color.YELLOW,Color.GREEN, Color.CYAN, Color.BLUE, Color.PINK, Color.MAGENTA,Color.LIGHT_GRAY, Color.GRAY, Color.DARK_GRAY, Color.BLACK};
 	
 	public Palette(){
 	}
@@ -16,15 +16,10 @@ public class Palette {
 		window.setColor(Color.BLACK);
 		window.drawString("Color Selector", 400, 25);
 		int cmult = 20;
-		int j=0;
-		for(int i=0;i<cols.length-1;i++){
+		for(int i=0;i<cols.length;i++){
 				window.setColor(cols[i]);
 				window.fillRect(500+i*cmult, 10, 20, 20);
-				j=i;
 		}
-		j++;
-		window.setColor(Color.RED);
-		window.drawRect(500+j*cmult, 10, 20, 20);
 	
 	}
 	public Color[] getCols(){

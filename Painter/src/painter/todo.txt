@@ -3,14 +3,11 @@ LIMIT DRAWING SPACE&add bar: SWITCH COLOR TO WHITE IMMEDIATELY AFTER Y CROSSES c
 Add various tools: 
 "airbrush" adds random pixels around cursor
 brush uses circular pixels instead of squares
-square pencil uses square pixels
-
-
-
-eraser tool
 add line tool
 rectangle tool
 filled rectangle tool
+SAVE! https://stackoverflow.com/questions/4725320/how-to-save-window-contents-as-an-image?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
+
 
 right mouse is automatic erase tool
 https://stackoverflow.com/questions/4525733/java-mouse-event-right-click
@@ -18,9 +15,22 @@ https://stackoverflow.com/questions/4525733/java-mouse-event-right-click
 
 Wipe board
 
+Press "(something)" to hide status bar
+Make "selected tool" icon different from reg tool icon
+
+custom colors
 
 ***FIX THE SPACES BETWEEN PIXELS***
 
 CHALLENGE
 Gradient tool
 text creates text
+
+
+
+
+
+
+DONE!!!!!: 
+eraser tool
+square pencil uses square pixels (just called pencil now)
