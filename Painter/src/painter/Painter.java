@@ -34,6 +34,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private boolean pencilselected;
 	private boolean eraserselected;
 	private boolean brushselected;
+	private boolean pickerselected;
 	
 //	private int r;
 //	private int g;
@@ -49,6 +50,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	ToolEraser eraser;
 	ToolBrush brush;
 	ToolSave save;
+	ToolPicker picker;
 //	private ArrayList<Palette> colorz;
 	
 	
@@ -102,6 +104,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		pencil = new ToolPencil(graphToBack);
 		brush = new ToolBrush(graphToBack);
 		save = new ToolSave(graphToBack);
+		picker = new ToolPicker(graphToBack);
 		
 		//Recognizes tool
 		if(pencilselected){
@@ -150,6 +153,11 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			graphToBack.setColor(Color.BLACK);
 			graphToBack.drawString("Save Tool: [edit] This is now a vestigial tool! Your artwork is automatically saved upon closing the window! How nice is that? ", 20, 700);
 		}
+		//Cursor hovering over color picker tool
+		else if(cursorY>=picker.getY()&&cursorY<=picker.getY()+picker.getSize()&&cursorX>=picker.getX()&&cursorX<=picker.getX()+picker.getSize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("[Nonfunctional]Color Picker Tool: Don't feel like using the default colors? Pick your own! ", 20, 700);
+		}
 		//Hovering over nothing, hide message
 		else{
 			graphToBack.setColor(Color.WHITE);
@@ -188,9 +196,22 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			else if(Y>=save.getY()&&Y<=save.getY()+save.getsize()&&X>=save.getX()&&X<=save.getX()+save.getsize()){
 //				save.save();
 			}
+			//Clicked on color picker tool
+			else if(cursorY>=picker.getY()&&cursorY<=picker.getY()+picker.getSize()&&cursorX>=picker.getX()&&cursorX<=picker.getX()+picker.getSize()){
+//				pickerselected=true;
+//				if(pickerselected){
+//					Color newcolor =  picker.picker();
+//					color = newcolor;
+//					pickerselected=false;
+//				}
+				
+			}
 			//Draws on canvas with pencil
 			else if(pencilselected&&Y>70){
 				pencil.draw(graphToBack,X,Y,color,size);
+				if(mouseDown&&cursorY<=70){
+					mouseDown = false;
+				}
 			}
 			//Draws on canvas with eraser
 			else if(eraserselected){

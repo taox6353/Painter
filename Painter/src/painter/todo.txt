@@ -5,20 +5,17 @@ add line tool
 rectangle tool
 filled rectangle tool
 
-right mouse is automatic erase tool
-https://stackoverflow.com/questions/4525733/java-mouse-event-right-click
 
-Make "selected tool" icon different from reg tool icon
-
-custom colors
 
 ***FIX THE SPACES BETWEEN PIXELS***
+
+
+
 
 CHALLENGES-------
 Gradient tool
 text creates text
-
-
+custom colors??????--COLORPICKER!!!
 
 
 
