@@ -29,6 +29,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private Color color;
 	private int size;
 	private boolean firstload;
+	private String tool;
 	
 	private boolean pencilselected;
 	private boolean eraserselected;
@@ -59,6 +60,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		color = Color.BLACK;
 		size = 15;
 		firstload = true;
+		tool = "Pencil";
 		
 		pencilselected=true;
 		eraserselected=false;
@@ -101,11 +103,22 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		brush = new ToolBrush(graphToBack);
 		save = new ToolSave(graphToBack);
 		
+		//Recognizes tool
+		if(pencilselected){
+			tool = "Pencil";
+		}
+		else if(eraserselected){
+			tool = "Eraser";
+		}
+		else if(brushselected){
+			tool = "Brush";
+		}
+		
 		//Status message updater
 		graphToBack.setColor(Color.WHITE);
 		graphToBack.fillRect(20, 710, 600, 12);
 		graphToBack.setColor(Color.BLACK);
-		graphToBack.drawString("Cursor Position: "+cursorX+", "+cursorY+"\t | Color selected: "+color.toString().substring(9)+" \t | Size: "+size, 20, 720);
+		graphToBack.drawString("Cursor Position: "+cursorX+", "+cursorY+"\t | Tool selected: "+tool+"\t | Color selected: "+color.toString().substring(9)+" \t | Size: "+size, 20, 720);
 		
 		//Cursor hovering over color bar
 		if(cursorY>=10&&cursorY<=30&&cursorX>=500&&cursorX<=500+20*palette.getCols().length){
