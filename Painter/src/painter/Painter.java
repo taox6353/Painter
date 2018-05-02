@@ -35,6 +35,8 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private boolean eraserselected;
 	private boolean brushselected;
 	private boolean pickerselected;
+	private boolean lineselected;
+	
 	
 //	private int r;
 //	private int g;
@@ -42,15 +44,22 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	
 	private int X = 0;
 	private int Y = 0;
+	private int Xrel = 0;
+	private int Yrel = 0;
+	private int Xpress = 0;
+	private int Ypress = 0;
 	
 	private int cursorX = 0;
 	private int cursorY = 0;
+	
+	private boolean justUp = false;
 	
 	ToolPencil pencil;
 	ToolEraser eraser;
 	ToolBrush brush;
 	ToolSave save;
 	ToolPicker picker;
+	ToolLine line;
 //	private ArrayList<Palette> colorz;
 	
 	
@@ -67,6 +76,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		pencilselected=true;
 		eraserselected=false;
 		brushselected=false;
+		lineselected=false;
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -105,6 +115,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		brush = new ToolBrush(graphToBack);
 		save = new ToolSave(graphToBack);
 		picker = new ToolPicker(graphToBack);
+		line = new ToolLine(graphToBack);
 		
 		//Recognizes tool
 		if(pencilselected){
@@ -116,6 +127,11 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		else if(brushselected){
 			tool = "Brush";
 		}
+		else if(lineselected){
+			tool = "Line Drawer";
+		}
+		else
+			tool = "None selected";
 		
 		//Status message updater
 		graphToBack.setColor(Color.WHITE);
@@ -158,6 +174,11 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			graphToBack.setColor(Color.BLACK);
 			graphToBack.drawString("[Nonfunctional]Color Picker Tool: Don't feel like using the default colors? Pick your own! ", 20, 700);
 		}
+		//Cursor hovering over line tool
+		else if(cursorY>=line.getY()&&cursorY<=line.getY()+line.getSize()&&cursorX>=line.getX()&&cursorX<=line.getX()+line.getSize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("Line Tool: Want a thin, straight line? Use this!   NOTE: This is a single use tool. To use again, reclick the tool icon. ", 20, 700);
+		}
 		//Hovering over nothing, hide message
 		else{
 			graphToBack.setColor(Color.WHITE);
@@ -179,32 +200,36 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				pencilselected = true;
 				eraserselected = false;
 				brushselected = false;
+				lineselected = false;
 			}
 			//Clicked on eraser tool
 			else if(Y>=eraser.getY()&&Y<=eraser.getY()+eraser.getSize()&&X>=eraser.getX()&&X<=eraser.getX()+eraser.getSize()){
 				pencilselected = false;
 				eraserselected = true;
 				brushselected = false;
+				lineselected = false;
 			}
 			//Clicked on brush tool
 			else if(Y>=brush.getY()&&Y<=brush.getY()+brush.getSize()&&X>=brush.getX()&&X<=brush.getX()+brush.getSize()){
 				pencilselected = false;
 				eraserselected = false;
 				brushselected = true;
+				lineselected = false;
 			}
 			//Clicked on save
 			else if(Y>=save.getY()&&Y<=save.getY()+save.getsize()&&X>=save.getX()&&X<=save.getX()+save.getsize()){
 //				save.save();
 			}
-			//Clicked on color picker tool
-			else if(cursorY>=picker.getY()&&cursorY<=picker.getY()+picker.getSize()&&cursorX>=picker.getX()&&cursorX<=picker.getX()+picker.getSize()){
+			//Clicked on color picker tool---doesn't work
+//			else if(cursorY>=picker.getY()&&cursorY<=picker.getY()+picker.getSize()&&cursorX>=picker.getX()&&cursorX<=picker.getX()+picker.getSize()){
 //				pickerselected=true;
-//				if(pickerselected){
-//					Color newcolor =  picker.picker();
-//					color = newcolor;
-//					pickerselected=false;
-//				}
-				
+//			}
+			//Clicked on line tool
+			else if(cursorY>=line.getY()&&cursorY<=line.getY()+line.getSize()&&cursorX>=line.getX()&&cursorX<=line.getX()+line.getSize()){
+				pencilselected = false;
+				eraserselected = false;
+				brushselected = false;
+				lineselected = true;
 			}
 			//Draws on canvas with pencil
 			else if(pencilselected&&Y>70){
@@ -221,8 +246,21 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			else if(brushselected&&Y>70){
 				brush.draw(graphToBack,X,Y,color,size);
 			}
-				
+			
 		}
+		//Draws on canvas using line tool
+		if(justUp&&lineselected&&Y>70&&Ypress>70&&Yrel>70){
+			justUp = false;
+			lineselected = false;
+			line.draw(graphToBack,Xpress,Ypress,Xrel,Yrel,color);
+		}
+		
+		//colorpicker doesn't work
+//		if(pickerselected){
+//			pickerselected=false;
+//			Color newcolor =  picker.picker();
+//			color = newcolor;
+//		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
 	}
@@ -231,14 +269,25 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		repaint();
 	}
 	public void mousePressed(MouseEvent event){
-		X = event.getX();
-		Y = event.getY();
 		mouseDown = true;
+		
+		if(lineselected&&cursorY>70){
+			Xpress = event.getX();
+			Ypress = event.getY();
+		}
+		else{
+			X = event.getX();
+			Y = event.getY();
+		}
+			
 		repaint();
 		
 	}
 	public void mouseReleased(MouseEvent event){
 		mouseDown = false;
+		Xrel = event.getX();
+		Yrel = event.getY();
+		justUp = true;
 		repaint();
 	}
 	public void mouseEntered(MouseEvent event){

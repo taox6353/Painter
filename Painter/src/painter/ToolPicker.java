@@ -14,6 +14,7 @@ public class ToolPicker {
 	int y;
 	int size;
 	Image image;
+	Color color;
 	
 	public ToolPicker(Graphics window){
 		try
@@ -24,6 +25,7 @@ public class ToolPicker {
 		{
 			System.out.println("Icon could not be found or read. ");
 		}
+		color = Color.WHITE;
 		x=225;
 		y=0;
 		size=30;
@@ -44,16 +46,14 @@ public class ToolPicker {
 
 	
 	public Color picker()
-	  {
-	    Color color = Color.WHITE;
-	    
+	  { 
 	    //creates JFrame
-	    JFrame frame = new JFrame();
+		JFrame frame = new JFrame();
 	    frame.setAlwaysOnTop(true);	    
-	    
+	    System.out.println("CREATED JFRAME");
 	    //opens color picker
 	    color = JColorChooser.showDialog(frame,"Pick a color",color);
-	    
+	    System.out.println("COLORCHOOSE ISSUE");
 	    return color;
 	  }
 }
