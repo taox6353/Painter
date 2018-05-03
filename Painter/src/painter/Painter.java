@@ -37,6 +37,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private boolean pickerselected;
 	private boolean lineselected;
 	private boolean rectselected;
+	private boolean fillrectselected;
 	
 	
 //	private int r;
@@ -62,12 +63,14 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	ToolPicker picker;
 	ToolLine line;
 	ToolRect rect;
+	ToolFillRect fillrect;
 //	private ArrayList<Palette> colorz;
+	
 	
 	
 	public Painter(){
 		setBackground(Color.WHITE);
-		
+
 		
 		mouseDown = false;
 		color = Color.BLACK;
@@ -80,6 +83,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		brushselected=false;
 		lineselected=false;
 		rectselected=false;
+		fillrectselected=false;
 		
 		this.addMouseListener(this);
 		this.addMouseMotionListener(this);
@@ -110,6 +114,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		}
 		//Loads toolbar elements
 		graphToBack.drawLine(0, 70, 800, 70);
+		graphToBack.drawLine(0, 680, 800, 680);
 		Palette palette = new Palette(graphToBack);
 		Thickness thicknesses = new Thickness(graphToBack);
 		Logo logo = new Logo(graphToBack);
@@ -120,6 +125,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		picker = new ToolPicker(graphToBack);
 		line = new ToolLine(graphToBack);
 		rect = new ToolRect(graphToBack);
+		fillrect = new ToolFillRect(graphToBack);
 		
 		//Recognizes tool
 		if(pencilselected){
@@ -137,12 +143,15 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		else if(rectselected){
 			tool = "Rectangle Drawer";
 		}
+		else if(fillrectselected){
+			tool = "Filled Rectangle Drawer";
+		}
 		else
 			tool = "None selected";
 		
 		//Status message updater
 		graphToBack.setColor(Color.WHITE);
-		graphToBack.fillRect(20, 710, 600, 12);
+		graphToBack.fillRect(20, 710, 800, 12);
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.drawString("Cursor Position: "+cursorX+", "+cursorY+"\t | Tool selected: "+tool+"\t | Color selected: "+color.toString().substring(9)+" \t | Size: "+size, 20, 720);
 		
@@ -191,10 +200,15 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			graphToBack.setColor(Color.BLACK);
 			graphToBack.drawString("Rectangle Tool: Want a nice rectangle? Use this!   NOTE: This is a single use tool. To use again, reclick the tool icon. ", 20, 700);
 		}
+		//Cursor hovering over filled rect tool
+		else if(cursorY>=fillrect.getY()&&cursorY<=fillrect.getY()+fillrect.getSize()&&cursorX>=fillrect.getX()&&cursorX<=fillrect.getX()+fillrect.getSize()){
+			graphToBack.setColor(Color.BLACK);
+			graphToBack.drawString("Filled Rectangle Tool: Want a nice FILLED rectangle? Use this!   NOTE: This is a single use tool. To use again, reclick the tool icon. ", 20, 700);
+		}
 		//Hovering over nothing, hide message
 		else{
 			graphToBack.setColor(Color.WHITE);
-			graphToBack.fillRect(20, 690, 700, 12);
+			graphToBack.fillRect(20, 690, 800, 12);
 		}
 		
 		//Hot areas: clicking on stuff does stuff
@@ -214,6 +228,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				brushselected = false;
 				lineselected = false;
 				rectselected = false;
+				fillrectselected = false;
 			}
 			//Clicked on eraser tool
 			else if(Y>=eraser.getY()&&Y<=eraser.getY()+eraser.getSize()&&X>=eraser.getX()&&X<=eraser.getX()+eraser.getSize()){
@@ -222,6 +237,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				brushselected = false;
 				lineselected = false;
 				rectselected = false;
+				fillrectselected = false;
 			}
 			//Clicked on brush tool
 			else if(Y>=brush.getY()&&Y<=brush.getY()+brush.getSize()&&X>=brush.getX()&&X<=brush.getX()+brush.getSize()){
@@ -230,6 +246,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				brushselected = true;
 				lineselected = false;
 				rectselected = false;
+				fillrectselected = false;
 			}
 			//Clicked on save
 			else if(Y>=save.getY()&&Y<=save.getY()+save.getsize()&&X>=save.getX()&&X<=save.getX()+save.getsize()){
@@ -246,6 +263,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				brushselected = false;
 				lineselected = true;
 				rectselected = false;
+				fillrectselected = false;
 			}
 			//Clicked on rect tool
 			else if(cursorY>=rect.getY()&&cursorY<=rect.getY()+rect.getSize()&&cursorX>=rect.getX()&&cursorX<=rect.getX()+rect.getSize()){
@@ -254,6 +272,16 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				brushselected = false;
 				lineselected = false;
 				rectselected = true;
+				fillrectselected = false;
+			}
+			//Clicked on filled rect tool
+			else if(cursorY>=fillrect.getY()&&cursorY<=fillrect.getY()+fillrect.getSize()&&cursorX>=fillrect.getX()&&cursorX<=fillrect.getX()+fillrect.getSize()){
+				pencilselected = false;
+				eraserselected = false;
+				brushselected = false;
+				lineselected = false;
+				rectselected = false;
+				fillrectselected = true;
 			}
 			//Draws on canvas with pencil
 			else if(pencilselected&&Y>70){
@@ -286,6 +314,13 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			rect.draw(graphToBack,Xpress,Ypress,Xrel,Yrel,color);
 		}
 		
+		//Draws on canvas using filled rectangle tool
+		if(justUp&&fillrectselected&&Y>70&&Ypress>70&&Yrel>70){
+			justUp = false;
+			fillrectselected = false;
+			fillrect.draw(graphToBack,Xpress,Ypress,Xrel,Yrel,color);
+		}
+		
 		//colorpicker doesn't work
 //		if(pickerselected){
 //			pickerselected=false;
@@ -307,6 +342,10 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			Ypress = event.getY();
 		}
 		if(rectselected&&cursorY>70){
+			Xpress = event.getX();
+			Ypress = event.getY();
+		}
+		if(fillrectselected&&cursorY>70){
 			Xpress = event.getX();
 			Ypress = event.getY();
 		}
