@@ -324,8 +324,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		//colorpicker doesn't work
 //		if(pickerselected){
 //			pickerselected=false;
-//			Color newcolor =  picker.picker();
-//			color = newcolor;
+//			color =  picker.picker();
 //		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
