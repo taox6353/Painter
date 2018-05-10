@@ -54,6 +54,8 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private int cursorX = 0;
 	private int cursorY = 0;
 	
+	private int bottomzone = 0;
+	
 	private boolean justUp = false;
 	
 	ToolPencil pencil;
@@ -137,6 +139,9 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		else if(brushselected){
 			tool = "Brush";
 		}
+		else if(pickerselected){
+			tool = "Color Picker Tool";
+		}
 		else if(lineselected){
 			tool = "Line Drawer";
 		}
@@ -154,6 +159,9 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		graphToBack.fillRect(20, 710, 800, 12);
 		graphToBack.setColor(Color.BLACK);
 		graphToBack.drawString("Cursor Position: "+cursorX+", "+cursorY+"\t | Tool selected: "+tool+"\t | Color selected: "+color.toString().substring(9)+" \t | Size: "+size, 20, 720);
+		
+		//Bottom zone
+		bottomzone = 680-size;
 		
 		//Cursor hovering over color bar
 		if(cursorY>=10&&cursorY<=30&&cursorX>=500&&cursorX<=500+20*palette.getCols().length){
@@ -188,7 +196,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		//Cursor hovering over color picker tool
 		else if(cursorY>=picker.getY()&&cursorY<=picker.getY()+picker.getSize()&&cursorX>=picker.getX()&&cursorX<=picker.getX()+picker.getSize()){
 			graphToBack.setColor(Color.BLACK);
-			graphToBack.drawString("[Nonfunctional]Color Picker Tool: Don't feel like using the default colors? Pick your own! ", 20, 700);
+			graphToBack.drawString("Color Picker Tool: Don't feel like using the default colors? Pick and mix your own! ", 20, 700);
 		}
 		//Cursor hovering over line tool
 		else if(cursorY>=line.getY()&&cursorY<=line.getY()+line.getSize()&&cursorX>=line.getX()&&cursorX<=line.getX()+line.getSize()){
@@ -253,9 +261,15 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 //				save.save();
 			}
 			//Clicked on color picker tool---doesn't work
-//			else if(cursorY>=picker.getY()&&cursorY<=picker.getY()+picker.getSize()&&cursorX>=picker.getX()&&cursorX<=picker.getX()+picker.getSize()){
-//				pickerselected=true;
-//			}
+			else if(Y>=picker.getY()&&Y<=picker.getY()+picker.getSize()&&X>=picker.getX()&&X<=picker.getX()+picker.getSize()&&pickerselected==false){
+				pickerselected=true;
+				if(pickerselected){
+					color = picker.picker();
+				}
+				pickerselected=false;
+				X=0;
+				Y=0;
+			}
 			//Clicked on line tool
 			else if(cursorY>=line.getY()&&cursorY<=line.getY()+line.getSize()&&cursorX>=line.getX()&&cursorX<=line.getX()+line.getSize()){
 				pencilselected = false;
@@ -284,9 +298,10 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				fillrectselected = true;
 			}
 			//Draws on canvas with pencil
-			else if(pencilselected&&Y>70){
+			else if(pencilselected&&Y>70&&Y<=bottomzone){
 				pencil.draw(graphToBack,X,Y,color,size);
-				if(mouseDown&&cursorY<=70){
+				if(mouseDown&&cursorY<=70&&Y>=bottomzone){
+					System.out.println(bottomzone);
 					mouseDown = false;
 				}
 			}
@@ -295,37 +310,32 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 				eraser.draw(graphToBack, X, Y, color, size);
 			}
 			//Draws on canvas with brush
-			else if(brushselected&&Y>70){
+			else if(brushselected&&Y>70&&Y<=bottomzone){
 				brush.draw(graphToBack,X,Y,color,size);
 			}
 			
 		}
 		
 		//Draws on canvas using line tool
-		if(justUp&&lineselected&&Y>70&&Ypress>70&&Yrel>70){
+		if(justUp&&lineselected&&Y>70&&Ypress>70&&Yrel>70&&Yrel<=bottomzone){
 			justUp = false;
 			lineselected = false;
 			line.draw(graphToBack,Xpress,Ypress,Xrel,Yrel,color);
 		}
 		//Draws on canvas using rectangle tool
-		if(justUp&&rectselected&&Y>70&&Ypress>70&&Yrel>70){
+		if(justUp&&rectselected&&Y>70&&Ypress>70&&Yrel>70&&Yrel<=bottomzone){
 			justUp = false;
 			rectselected = false;
 			rect.draw(graphToBack,Xpress,Ypress,Xrel,Yrel,color);
 		}
 		
 		//Draws on canvas using filled rectangle tool
-		if(justUp&&fillrectselected&&Y>70&&Ypress>70&&Yrel>70){
+		if(justUp&&fillrectselected&&Y>70&&Ypress>70&&Yrel>70&&Yrel<=bottomzone){
 			justUp = false;
 			fillrectselected = false;
 			fillrect.draw(graphToBack,Xpress,Ypress,Xrel,Yrel,color);
 		}
 		
-		//colorpicker doesn't work
-//		if(pickerselected){
-//			pickerselected=false;
-//			color =  picker.picker();
-//		}
 		
 		twoDGraph.drawImage(back, null, 0, 0);
 	}

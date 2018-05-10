@@ -47,13 +47,9 @@ public class ToolPicker {
 	
 	public Color picker()
 	  { 
-	    //creates JFrame
 		JFrame frame = new JFrame();
-	    frame.setAlwaysOnTop(true);	    
-	    System.out.println("CREATED JFRAME");
-	    //opens color picker
-	    color = JColorChooser.showDialog(frame,"Pick a color",color);
-	    System.out.println("COLORCHOOSE ISSUE");
-	    return color;
+	    frame.setAlwaysOnTop(true);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    return JColorChooser.showDialog(frame,"Pick a color",color);
 	  }
 }
