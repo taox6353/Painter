@@ -66,8 +66,6 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	ToolLine line;
 	ToolRect rect;
 	ToolFillRect fillrect;
-//	private ArrayList<Palette> colorz;
-	
 	
 	
 	public Painter(){
@@ -91,6 +89,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		this.addMouseMotionListener(this);
 		new Thread(this).start();
 
+		//Pre-program dialogue box
 		StartScreen a = new StartScreen();
 		
 		setVisible(true);
@@ -107,15 +106,6 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 			   back = (BufferedImage)(createImage(getWidth(),getHeight()));
 		Graphics graphToBack = back.createGraphics();
 		
-		//Loads first screen
-//		if(firstload){
-//		StartScreen ss = new StartScreen();
-//		ss.draw(graphToBack);
-//		if(mouseDown){
-//			ss.getOut(graphToBack);
-//			firstload = false;
-//			}
-//		}
 		//Loads toolbar elements
 		graphToBack.drawLine(0, 70, 800, 70);
 		graphToBack.drawLine(0, 680, 800, 680);
