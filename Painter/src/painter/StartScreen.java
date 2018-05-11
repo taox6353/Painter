@@ -28,21 +28,21 @@ public class StartScreen {
 				+ "\n[Click OK to start painting!]","PAINTER by Xavier Tao",JOptionPane.INFORMATION_MESSAGE,icon);
 	}
 	
-	public void draw(Graphics window){
-		
-		
-	    
-		window.setColor(Color.BLACK);
-		window.drawString("", 100, 150);
-		window.drawString("", 100, 170);
-		window.drawString("", 100, 190);
-		window.drawString("If you would like to retrieve your autosaved drawing, go to src/painter/SAVEFILE.png and save that picture. ", 100, 210);
-		window.drawString("Helpful Tips: ", 100, 250);
-		window.drawString("DRAW (DRAG) SLOWLY TO MAKE STROKES.  ", 100, 270);
-		window.drawString("DRAW (DRAG) FAST TO EXPERIMENT WITH A SPLATTERING EFFECT. ", 100, 290);
-		window.drawString("You may only draw inside the bordered region. Tools will stay in effect if cursor is released outside of the region. ", 100, 310);
-		window.drawString("[Click anywhere to dismiss this message]", 100, 330);
-	}
+//	public void draw(Graphics window){
+//		
+//		(No longer being used: Updated to JFrame dialogue box)
+//	    
+//		window.setColor(Color.BLACK);
+//		window.drawString("", 100, 150);
+//		window.drawString("", 100, 170);
+//		window.drawString("", 100, 190);
+//		window.drawString("If you would like to retrieve your autosaved drawing, go to src/painter/SAVEFILE.png and save that picture. ", 100, 210);
+//		window.drawString("Helpful Tips: ", 100, 250);
+//		window.drawString("DRAW (DRAG) SLOWLY TO MAKE STROKES.  ", 100, 270);
+//		window.drawString("DRAW (DRAG) FAST TO EXPERIMENT WITH A SPLATTERING EFFECT. ", 100, 290);
+//		window.drawString("You may only draw inside the bordered region. Tools will stay in effect if cursor is released outside of the region. ", 100, 310);
+//		window.drawString("[Click anywhere to dismiss this message]", 100, 330);
+//	}
 	public void getOut(Graphics window){
 		window.setColor(Color.WHITE);
 		window.fillRect(100, 100, 800, 800);
