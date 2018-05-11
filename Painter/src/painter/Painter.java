@@ -91,6 +91,8 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		this.addMouseMotionListener(this);
 		new Thread(this).start();
 
+		StartScreen a = new StartScreen();
+		
 		setVisible(true);
 	}
 	public void update(Graphics window)
@@ -106,14 +108,14 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		Graphics graphToBack = back.createGraphics();
 		
 		//Loads first screen
-		if(firstload){
-		StartScreen ss = new StartScreen();
-		ss.draw(graphToBack);
-		if(mouseDown){
-			ss.getOut(graphToBack);
-			firstload = false;
-			}
-		}
+//		if(firstload){
+//		StartScreen ss = new StartScreen();
+//		ss.draw(graphToBack);
+//		if(mouseDown){
+//			ss.getOut(graphToBack);
+//			firstload = false;
+//			}
+//		}
 		//Loads toolbar elements
 		graphToBack.drawLine(0, 70, 800, 70);
 		graphToBack.drawLine(0, 680, 800, 680);

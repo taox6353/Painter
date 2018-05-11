@@ -14,7 +14,7 @@ public class Palette {
 	
 	public Palette(Graphics window){
 		window.setColor(Color.BLACK);
-		window.drawString("Color Selector", 400, 25);
+		window.drawString("Basic Colors", 420, 25);
 		int cmult = 20;
 		for(int i=0;i<cols.length;i++){
 				window.setColor(cols[i]);

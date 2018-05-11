@@ -5,24 +5,37 @@ import java.awt.Graphics;
 import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 public class StartScreen {
 	public StartScreen(){
+		JFrame frame = new JFrame();
+		frame.setAlwaysOnTop(true);
+	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+	    //Makes icon
+	    ImageIcon icon = new ImageIcon("src/painter/logo.png");
+		JOptionPane.showMessageDialog(frame, "PAINTER by Xavier Tao\n"
+				+ "2018 AP Computer Science A\n"
+				+ "This is a paint application. Have fun!\n"
+				+ "Special thanks to Derek Nakanishi for advice and help with graphics. \n\n"
+				+ "Helpful Tips: \n"
+				+ "Draw (drag) SLOWLY to make strokes. \n"
+				+ "Draw (drag) QUICKLY to experiment with splattering. \n"
+				+ "You may only draw inside the bordered region. Tools will stay in effect if cursor is released outside of the region. \n"
+				+ "If you would like to retrieve your autosaved drawing, go to src/painter/SAVEFILE.png and save that picture. \n"
+				+ "\n[Click OK to start painting!]","PAINTER by Xavier Tao",JOptionPane.INFORMATION_MESSAGE,icon);
 	}
 	
 	public void draw(Graphics window){
 		
-//		JFrame frame = new JFrame();
-//	    frame.setAlwaysOnTop(true);
-//	    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-	    
-	    //try making a popup JDialog or something
+		
 	    
 		window.setColor(Color.BLACK);
-		window.drawString("PAINTER by Xavier Tao: 2018 AP Computer Science A", 100, 150);
-		window.drawString("This is a paint application. Explore the functions and have fun!", 100, 170);
-		window.drawString("Credits to Derek N. for graphics advice. ", 100, 190);
+		window.drawString("", 100, 150);
+		window.drawString("", 100, 170);
+		window.drawString("", 100, 190);
 		window.drawString("If you would like to retrieve your autosaved drawing, go to src/painter/SAVEFILE.png and save that picture. ", 100, 210);
 		window.drawString("Helpful Tips: ", 100, 250);
 		window.drawString("DRAW (DRAG) SLOWLY TO MAKE STROKES.  ", 100, 270);
