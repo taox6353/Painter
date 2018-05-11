@@ -110,8 +110,7 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		graphToBack.drawLine(0, 70, 800, 70);
 		graphToBack.drawLine(0, 680, 800, 680);
 		Palette palette = new Palette(graphToBack);
-		Thickness thicknesses = new Thickness(graphToBack);
-		Logo logo = new Logo(graphToBack);
+		InitialSetup logo = new InitialSetup(graphToBack);
 		eraser = new ToolEraser(graphToBack);
 		pencil = new ToolPencil(graphToBack);
 		brush = new ToolBrush(graphToBack);

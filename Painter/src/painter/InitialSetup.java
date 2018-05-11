@@ -6,12 +6,23 @@ import java.awt.Image;
 import java.io.File;
 import javax.imageio.ImageIO;
 
-public class Thickness {
+public class InitialSetup {
 	
-	public Thickness(){
-	}
+	Image logo;
 	
-	public Thickness(Graphics window){
+	public InitialSetup(Graphics window){
+		//Load in logo
+		try
+		{
+			logo = ImageIO.read(new File("src/painter/logo.png"));
+		}
+		catch(Exception e)
+		{
+			System.out.println("Icon could not be found or read. ");
+		}
+		window.drawImage(logo,0,0,70,70,null);
+		
+		//Thickness bar
 		window.setColor(Color.BLACK);
 		window.drawString("Thickness Spectrum", 375, 55);
 		window.setColor(Color.LIGHT_GRAY);
@@ -26,5 +37,6 @@ public class Thickness {
 		window.fillRect(660, 40, 80, 20);
 		window.setColor(Color.WHITE);
 		window.drawString("VERY THICK", 665, 55);
+		
 	}
 }
