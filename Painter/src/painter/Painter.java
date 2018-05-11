@@ -28,7 +28,6 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private boolean mouseDown;
 	private Color color;
 	private int size;
-	private boolean firstload;
 	private String tool;
 	
 	private boolean pencilselected;
@@ -38,11 +37,6 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 	private boolean lineselected;
 	private boolean rectselected;
 	private boolean fillrectselected;
-	
-	
-//	private int r;
-//	private int g;
-//	private int b;
 	
 	private int X = 0;
 	private int Y = 0;
@@ -75,7 +69,6 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		mouseDown = false;
 		color = Color.BLACK;
 		size = 15;
-		firstload = true;
 		tool = "Pencil";
 		
 		pencilselected=true;
@@ -381,19 +374,6 @@ public class Painter extends Canvas implements MouseListener, MouseMotionListene
 		cursorY=event.getY();
 		repaint();
 	}
-	
-	
-	
-
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 	
 	public void run()
