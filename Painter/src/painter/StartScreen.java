@@ -43,8 +43,8 @@ public class StartScreen {
 //		window.drawString("You may only draw inside the bordered region. Tools will stay in effect if cursor is released outside of the region. ", 100, 310);
 //		window.drawString("[Click anywhere to dismiss this message]", 100, 330);
 //	}
-	public void getOut(Graphics window){
-		window.setColor(Color.WHITE);
-		window.fillRect(100, 100, 800, 800);
-	}
+//	public void getOut(Graphics window){
+//		window.setColor(Color.WHITE);
+//		window.fillRect(100, 100, 800, 800);
+//	}
 }
